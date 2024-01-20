@@ -7,6 +7,10 @@ import 'package:starter_template/utils/extension.dart';
 
 GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
 
+Future<void> initializing() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializing();
@@ -44,11 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     final notification = FirebasePushHelper.instance;
-    notification.initPushConfiguration(
-      (value) => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const ScreenB(),
-      )),
-    );
+    notification.initPushConfiguration((value) {});
   }
 
   @override
@@ -66,28 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           child: const Text('TOKEN'),
         ),
-      ),
-    );
-  }
-}
-
-Future<void> initializing() async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-}
-
-class ScreenB extends StatefulWidget {
-  const ScreenB({super.key});
-
-  @override
-  State<ScreenB> createState() => _ScreenBState();
-}
-
-class _ScreenBState extends State<ScreenB> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Screen B'),
       ),
     );
   }

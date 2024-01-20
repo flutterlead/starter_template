@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final notification = FirebasePushHelper.instance;
     notification.initPushConfiguration(
       (value) => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ScreenB(),
+        builder: (context) => const ScreenB(),
       )),
     );
   }

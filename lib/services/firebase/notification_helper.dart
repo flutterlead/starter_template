@@ -1,15 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:starter_template/main.dart';
 import 'models/notification_info.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 abstract class NotificationHelperProtocol {
   Future<void> showNotification(NotificationInfo notificationData);
 
-  Future<void> initialize();
+  Future<void> initialize(void Function(NotificationResponse response) callback);
 }
 
 class NotificationHelper implements NotificationHelperProtocol {
@@ -30,7 +27,8 @@ class NotificationHelper implements NotificationHelperProtocol {
   }
 
   @override
-  Future<void> initialize() async {
+  Future<void> initialize(void Function(NotificationResponse response) callback) async {
+    await launchedFromNotification(callback);
     const iosSettings = DarwinInitializationSettings();
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -53,13 +51,19 @@ class NotificationHelper implements NotificationHelperProtocol {
 
     await _localNotificationsPlugin.initialize(
       const InitializationSettings(android: androidSettings, iOS: iosSettings),
-      onDidReceiveBackgroundNotificationResponse: _handler,
-      onDidReceiveNotificationResponse: _handler,
+      onDidReceiveNotificationResponse: callback,
     );
   }
 
-  static void _handler(NotificationResponse message) {
-    Navigator.of(navigator.currentContext!).push(MaterialPageRoute(builder: (context) => const ScreenB()));
+  Future<void> launchedFromNotification(void Function(NotificationResponse response) callback) async {
+    await _localNotificationsPlugin.getNotificationAppLaunchDetails().then(
+      (details) {
+        if (details?.didNotificationLaunchApp ?? false) {
+          final response = details?.notificationResponse;
+          if (response != null) callback(response);
+        }
+      },
+    );
   }
 
   NotificationDetails _getNotificationDetails(NotificationInfo notificationInfo) {

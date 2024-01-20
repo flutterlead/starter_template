@@ -44,7 +44,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     final notification = FirebasePushHelper.instance;
-    notification.initPushConfiguration();
+    notification.initPushConfiguration(
+      (value) => Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ScreenB(),
+      )),
+    );
   }
 
   @override
@@ -69,25 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 Future<void> initializing() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-}
-
-class ScreenA extends StatefulWidget {
-  const ScreenA({super.key});
-
-  @override
-  State<ScreenA> createState() => _ScreenAState();
-}
-
-class _ScreenAState extends State<ScreenA> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Screen A'),
-      ),
-    );
-  }
 }
 
 class ScreenB extends StatefulWidget {
@@ -107,5 +92,3 @@ class _ScreenBState extends State<ScreenB> {
     );
   }
 }
-
-

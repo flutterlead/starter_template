@@ -1,5 +1,4 @@
 import 'package:starter_template/injectable/injectable.dart';
-import 'package:starter_template/services/web_service/http_interceptor/http_interceptor.dart';
 import 'package:starter_template/services/firebase/firebase_push_helper.dart';
 import 'package:starter_template/services/web_service/api_service.dart';
 import 'package:starter_template/model/people_model/people.dart';

@@ -1,28 +1,18 @@
-import 'package:dio/dio.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:starter_template/firebase_options.dart';
-import 'package:starter_template/model/people_model/people.dart';
+import 'package:starter_template/injectable/injectable.dart';
+import 'package:starter_template/services/web_service/http_interceptor/http_interceptor.dart';
 import 'package:starter_template/services/firebase/firebase_push_helper.dart';
 import 'package:starter_template/services/web_service/api_service.dart';
-import 'package:starter_template/services/web_service/http_interceptor/http_interceptor.dart';
+import 'package:starter_template/model/people_model/people.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
 import 'package:starter_template/utils/extension.dart';
 import 'package:get_it/get_it.dart';
 
 GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
 
-Future<void> initializing() async {
-  final dio = Dio();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  if (kDebugMode) dio.interceptors.add(LoggingInterceptor());
-  GetIt.instance.registerSingleton<RestClient>(RestClient(dio));
-}
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializing();
+  await configuration();
   runApp(const Application());
 }
 
@@ -67,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Retrofit Example"),
       ),
       body: FutureBuilder<List<PeopleModel>>(
-        future: GetIt.instance.get<RestClient>().getUsers(),
+        future: GetIt.instance.get<RestClient>().getPeoples(),
         builder: (context, AsyncSnapshot<List<PeopleModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final people = snapshot.data!;
@@ -84,9 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(100.0),
         child: Image.network(
-          'https://pub.dev/packages/retrofit',
-          height: 30,
-          width: 30,
+          model.avatar.toString(),
           errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
         ),
       ),

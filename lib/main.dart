@@ -89,9 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onCompleted: (snapshot) {
           return RefreshIndicator(
             onRefresh: () async => peopleKey.refresh(getIt<RestClient>().getPeoples()),
-            child: ListView(
-              children: (snapshot as List<PeopleModel>).map<Widget>(peopleWidget).toList(),
-            ),
+            child: ListView(children: (snapshot as List<PeopleModel>).map<Widget>(peopleWidget).toList()),
           );
         },
       ),

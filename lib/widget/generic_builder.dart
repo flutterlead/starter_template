@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 
 class GenericBuilder<T> extends StatefulWidget {
-  const GenericBuilder({
-    super.key,
-    required this.future,
-    this.initialData,
-    required this.builder,
-  });
+  const GenericBuilder({super.key, required this.future, this.initialData, required this.builder});
 
   final Future<T>? future;
-
   final AsyncWidgetBuilder<T> builder;
-
   final T? initialData;
-
   static bool debugRethrowError = false;
 
   @override
@@ -34,9 +26,7 @@ class _GenericBuilderState<T> extends State<GenericBuilder<T>> {
   @override
   void didUpdateWidget(GenericBuilder<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.future == widget.future) {
-      return;
-    }
+    if (oldWidget.future == widget.future) return;
     if (_activeCallbackIdentity != null) {
       _unsubscribe();
       _snapshot = _snapshot.inState(ConnectionState.none);
@@ -54,9 +44,7 @@ class _GenericBuilderState<T> extends State<GenericBuilder<T>> {
   }
 
   void _subscribe() {
-    if (widget.future == null) {
-      return;
-    }
+    if (widget.future == null) return;
     final Object callbackIdentity = Object();
     _activeCallbackIdentity = callbackIdentity;
     widget.future!.then<void>((T data) {
@@ -65,24 +53,15 @@ class _GenericBuilderState<T> extends State<GenericBuilder<T>> {
       }
     }, onError: (Object error, StackTrace stackTrace) {
       if (_activeCallbackIdentity == callbackIdentity) {
-        setState(() {
-          _snapshot = AsyncSnapshot<T>.withError(ConnectionState.done, error, stackTrace);
-        });
+        setState(() => _snapshot = AsyncSnapshot<T>.withError(ConnectionState.done, error, stackTrace));
       }
       assert(() {
-        if (GenericBuilder.debugRethrowError) {
-          Future<Object>.error(error, stackTrace);
-        }
+        if (GenericBuilder.debugRethrowError) Future<Object>.error(error, stackTrace);
         return true;
       }());
     });
-
-    if (_snapshot.connectionState != ConnectionState.done) {
-      _snapshot = _snapshot.inState(ConnectionState.waiting);
-    }
+    if (_snapshot.connectionState != ConnectionState.done) _snapshot = _snapshot.inState(ConnectionState.waiting);
   }
 
-  void _unsubscribe() {
-    _activeCallbackIdentity = null;
-  }
+  void _unsubscribe() => _activeCallbackIdentity = null;
 }

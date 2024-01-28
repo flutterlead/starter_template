@@ -67,14 +67,6 @@ class _ErrorDialogState extends State<ErrorDialog> {
                 widget.userFriendlyError.description,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 10),
-              TextButton(
-                child: const Text(
-                  'Retry',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onPressed: () {},
-              ),
             ],
           ),
         ),

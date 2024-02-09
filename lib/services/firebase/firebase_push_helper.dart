@@ -26,9 +26,9 @@ class FirebasePushHelper extends FirebasePushHelperHelperProtocol {
     await messaging.requestPermission();
     _setupForegroundNotify();
     _setupBackGroundMessage();
+    _setupClickNotify();
 
     ///await _setupTerminatedNotify();
-    ///_setupClickNotify();
   }
 
   @override
@@ -41,8 +41,8 @@ class FirebasePushHelper extends FirebasePushHelperHelperProtocol {
 
   static void _setupBackGroundMessage() => FirebaseMessaging.onBackgroundMessage(_messageShowHandler);
 
-  /// void _setupClickNotify() => FirebaseMessaging.onMessageOpenedApp.listen((_) {});
-  ///
+  void _setupClickNotify() => FirebaseMessaging.onMessageOpenedApp.listen(_messageShowHandler);
+
   /// Future<void> _setupTerminatedNotify() async {
   ///   final initialMsg = await messaging.getInitialMessage();
   ///   if (initialMsg == null) return;

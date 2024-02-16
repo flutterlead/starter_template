@@ -4,8 +4,10 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:starter_template/injectable/injectable.dart';
+import 'package:starter_template/model/beer_model/beer.dart';
 import 'package:starter_template/services/firebase/firebase_push_helper.dart';
 import 'package:starter_template/model/people_model/people.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -81,6 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Retrofit Example"),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const PaginationExample()),
+            ),
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: ApiBuilderWidget<List<PeopleModel>>(
         key: peopleKey,
@@ -107,6 +117,78 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       title: Text(model.name.toString()),
       subtitle: Text(model.createdAt.toString()),
+    );
+  }
+}
+
+class PaginationExample extends StatefulWidget {
+  const PaginationExample({super.key});
+
+  @override
+  State<PaginationExample> createState() => _PaginationExampleState();
+}
+
+class _PaginationExampleState extends State<PaginationExample> {
+  final _pagingController = PagingController<int, BeerSummary>(firstPageKey: 1);
+  int limit = 20;
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
+    super.initState();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await getIt<RestClient>().getBeer(pageKey, limit);
+      final isLastPage = newItems.length < limit;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pagination Example'),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => Future.sync(() => _pagingController.refresh()),
+        child: PagedListView<int, BeerSummary>.separated(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<BeerSummary>(
+            animateTransitions: true,
+            noItemsFoundIndicatorBuilder: (context) => const Center(
+              child: Text('No item found'),
+            ),
+            itemBuilder: (context, item, index) => beerListItem(item),
+          ),
+          separatorBuilder: (context, index) => const SizedBox.shrink(),
+        ),
+      ),
+    );
+  }
+
+  Widget beerListItem(BeerSummary beer) {
+    return ListTile(
+      leading: CircleAvatar(
+        radius: 20,
+        backgroundImage: NetworkImage(beer.imageUrl.toString()),
+      ),
+      title: Text(beer.name.toString()),
     );
   }
 }

@@ -1,5 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'people.g.dart';
+
+List<PeopleModel> deserializePeopleModelList(List<Map<String, dynamic>> json) => json.map((e) => PeopleModel.fromJson(e)).toList();
+
+List<Map<String, dynamic>> serializePeopleModelList(List<PeopleModel> model) => model.map((e) => e.toJson()).toList();
 
 @JsonSerializable()
 class PeopleModel {
@@ -18,6 +23,7 @@ class PeopleModel {
   factory PeopleModel.fromJson(Map<String, dynamic> json) {
     return _$PeopleModelFromJson(json);
   }
+
   Map<String, dynamic> toJson() {
     return _$PeopleModelToJson(this);
   }

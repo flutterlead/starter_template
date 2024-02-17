@@ -1,0 +1,22 @@
+{
+  "title": "स्टार्टर टेम्पलेट",
+  "connectionTimeoutDescription": "ओहो! लगता है कि कनेक्शन का समय समाप्त हो गया है। कृपया अपना इंटरनेट कनेक्शन जाँचें और पुन: प्रयास करें।",
+  "requestTimeoutDescription": "उह-हो! आपका अनुरोध अपेक्षित समय से अधिक ले रहा है। कृपया बाद में पुन: प्रयास करें।",
+  "dataReceptionIssueDescription": "ओहो! हम अभी डेटा प्राप्त करने में समस्या झेल रहे हैं। कृपया बाद में पुन: प्रयास करें।",
+  "securityCertificateProblemDescription": "क्षमा करें, सुरक्षा प्रमाणपत्र में समस्या है। कृपया सहायता के लिए समर्थन से संपर्क करें।",
+  "unexpectedServerResponseDescription": "अरे नहीं! हमें सर्वर से अप्रत्याशित प्रतिक्रिया मिली है। कृपया बाद में पुन: प्रयास करें।",
+  "requestCancelledDescription": "आपका अनुरोध रद्द कर दिया गया है। कृपया पुन: प्रयास करें।",
+  "connectionIssueDescription": "हम सर्वर से कनेक्ट करने में समस्या झेल रहे हैं। कृपया अपना इंटरनेट कनेक्शन जाँचें और पुन: प्रयास करें।",
+  "unknownErrorDescription": "ओहो! कुछ गलत हो गया है। कृपया बाद में पुन: प्रयास करें।",
+  "connectionTimeout": "कनेक्शन समय समाप्त",
+  "requestTimeout": "अनुरोध समय समाप्त",
+  "dataReceptionIssue": "डेटा प्राप्ति समस्या",
+  "securityCertificateProblem": "सुरक्षा प्रमाणपत्र समस्या",
+  "unexpectedServerResponse": "अप्रत्याशित सर्वर प्रतिक्रिया",
+  "requestCancelled": "अनुरोध रद्द किया गया",
+  "connectionIssue": "कनेक्शन समस्या",
+  "unknownError": "अज्ञात त्रुटि",
+  "settings": "सेटिंग्स",
+  "changeTheme": "थीम बदलें",
+  "changeLanguage": "भाषा बदलें"
+}

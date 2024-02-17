@@ -1,3 +1,22 @@
 {
-"title":"Starter Template"
+  "title": "Starter Template",
+  "connectionTimeoutDescription": "Oops! It seems the connection timed out. Please check your internet connection and try again.",
+  "requestTimeoutDescription": "Uh-oh! Your request took longer than expected. Please try again later.",
+  "dataReceptionIssueDescription": "Oops! We're having trouble receiving data right now. Please try again later.",
+  "securityCertificateProblemDescription": "Sorry, there's a problem with the security certificate. Please contact support for assistance.",
+  "unexpectedServerResponseDescription": "Oh no! We received an unexpected response from the server. Please try again later.",
+  "requestCancelledDescription": "Your request has been cancelled. Please try again.",
+  "connectionIssueDescription": "We're having trouble connecting to the server. Please check your internet connection and try again.",
+  "unknownErrorDescription": "Oops! Something went wrong. Please try again later.",
+  "connectionTimeout": "Connection Timeout",
+  "requestTimeout": "Request Timeout",
+  "dataReceptionIssue": "Data Reception Issue",
+  "securityCertificateProblem": "Security Certificate Problem",
+  "unexpectedServerResponse": "Unexpected Server Response",
+  "requestCancelled": "Request Cancelled",
+  "connectionIssue": "Connection Issue",
+  "unknownError": "Unknown Error",
+  "settings": "Setting",
+  "changeTheme": "Change Theme",
+  "changeLanguage": "Change Language"
 }

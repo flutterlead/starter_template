@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:starter_template/utils/extension.dart';
 
 class UserFriendlyError {
   final String title;
@@ -8,48 +10,48 @@ class UserFriendlyError {
 }
 
 extension DioExceptionTypeExtension on DioExceptionType {
-  UserFriendlyError toUserFriendlyError() {
+  UserFriendlyError toUserFriendlyError(BuildContext context) {
     switch (this) {
       case DioExceptionType.connectionTimeout:
         return UserFriendlyError(
-          'Connection Timeout',
-          'Oops! It seems the connection timed out. Please check your internet connection and try again.',
+          context.localization.connectionTimeout,
+          context.localization.connectionTimeoutDescription,
         );
       case DioExceptionType.sendTimeout:
         return UserFriendlyError(
-          'Request Timeout',
-          'Uh-oh! Your request took longer than expected. Please try again later.',
+          context.localization.connectionTimeout,
+          context.localization.connectionTimeoutDescription,
         );
       case DioExceptionType.receiveTimeout:
         return UserFriendlyError(
-          'Data Reception Issue',
-          'Oops! We\'re having trouble receiving data right now. Please try again later.',
+          context.localization.dataReceptionIssue,
+          context.localization.dataReceptionIssueDescription,
         );
       case DioExceptionType.badCertificate:
         return UserFriendlyError(
-          'Security Certificate Problem',
-          'Sorry, there\'s a problem with the security certificate. Please contact support for assistance.',
+          context.localization.securityCertificateProblem,
+          context.localization.securityCertificateProblemDescription,
         );
       case DioExceptionType.badResponse:
         return UserFriendlyError(
-          'Unexpected Server Response',
-          'Oh no! We received an unexpected response from the server. Please try again later.',
+          context.localization.unexpectedServerResponse,
+          context.localization.unexpectedServerResponseDescription,
         );
       case DioExceptionType.cancel:
         return UserFriendlyError(
-          'Request Cancelled',
-          'Your request has been cancelled. Please try again.',
+          context.localization.requestCancelled,
+          context.localization.requestCancelledDescription,
         );
       case DioExceptionType.connectionError:
         return UserFriendlyError(
-          'Connection Issue',
-          'We\'re having trouble connecting to the server. Please check your internet connection and try again.',
+          context.localization.connectionIssue,
+          context.localization.connectionIssueDescription,
         );
       case DioExceptionType.unknown:
       default:
         return UserFriendlyError(
-          'Unknown Error',
-          'Oops! Something went wrong. Please try again later.',
+          context.localization.unknownError,
+          context.localization.unknownErrorDescription,
         );
     }
   }

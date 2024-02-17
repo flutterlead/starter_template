@@ -9,6 +9,7 @@ List<Map<String, dynamic>> serializeBeerSummaryList(List<BeerSummary> model) => 
 class BeerSummary {
   final int? id;
   final String? name;
+  final String? description;
 
   @JsonKey(name: 'image_url')
   final String? imageUrl;
@@ -17,6 +18,7 @@ class BeerSummary {
     this.id,
     this.name,
     this.imageUrl,
+    this.description,
   });
 
   factory BeerSummary.fromJson(Map<String, dynamic> json) {

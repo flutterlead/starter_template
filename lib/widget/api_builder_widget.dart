@@ -50,7 +50,7 @@ class ApiBuilderWidgetState<T> extends State<ApiBuilderWidget> {
             return Center(
               child: ErrorDialog(
                 onConnectionRestored: widget.onConnectionRestored,
-                userFriendlyError: error.type.toUserFriendlyError(),
+                userFriendlyError: error.type.toUserFriendlyError(context),
               ),
             );
           }

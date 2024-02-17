@@ -7,10 +7,7 @@ import 'package:injectable/injectable.dart' as i;
 
 part 'api_service.g.dart';
 
-@RestApi(
-  baseUrl: "https://61028c7079ed68001748216c.mockapi.io/",
-  parser: Parser.FlutterCompute,
-)
+@RestApi(parser: Parser.FlutterCompute)
 @i.lazySingleton
 @i.injectable
 abstract class RestClient {

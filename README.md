@@ -1,5 +1,6 @@
 --------------------------------------------------------
 # Do this before you start
+
 Editor -> Code style -> Dart set line length to 200
 
 --------------------------------------------------------
@@ -141,4 +142,107 @@ class _MyHomePageState extends ResumeState<MyHomePage> {
  
   You can find it here (lib/widget/debounce_builder.dart)
   also you can change it's ui based on your requirement.
+--------------------------------------------------------
+# Supports Pagination Out of the box
+
+  import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+  
+  class PaginationExample extends StatefulWidget {
+  const PaginationExample({super.key});
+
+  @override
+  State<PaginationExample> createState() => _PaginationExampleState();
+}
+
+class _PaginationExampleState extends State<PaginationExample> {
+  final _pagingController = PagingController<int, BeerSummary>(firstPageKey: 1);
+  int limit = 20;
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
+    super.initState();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await getIt<RestClient>().getBeer(pageKey, limit);
+      final isLastPage = newItems.length < limit;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pagination Example'),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => Future.sync(() => _pagingController.refresh()),
+        child: PagedListView<int, BeerSummary>(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<BeerSummary>(
+            noItemsFoundIndicatorBuilder: (context) => const Center(
+              child: Text('No item found'),
+            ),
+            itemBuilder: (context, item, index) => beerListItem(item),
+            firstPageProgressIndicatorBuilder: (context) => const CupertinoActivityIndicator(),
+            newPageProgressIndicatorBuilder: (context) => Container(
+              margin: const EdgeInsets.all(16.0),
+              child: const CupertinoActivityIndicator(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget beerListItem(BeerSummary beer) {
+    return ListTile(
+      leading: ClipRRect(
+        borderRadius: BorderRadius.circular(100.0),
+        child: Container(
+          width: 50,
+          height: 50,
+          padding: const EdgeInsets.all(10.0),
+          color: Theme.of(context).primaryColor,
+          child: Image.network(
+            beer.imageUrl.toString(),
+            errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+          ),
+        ),
+      ),
+      title: Text(beer.name.toString()),
+      subtitle: Text(beer.description.toString()),
+    );
+  }
+}
+
+--------------------------------------------------------
+# Supports Theme Out of the box
+  
+  you can just use ThemeSelectionWidget() to change the theme of the app
+  Which is located here (lib/widget/theme_selection_widget.dart)
+  
+--------------------------------------------------------
+# Supports AppLocalization / Internationalization (i18n) out of the box.
+
+  To use your own localized language please make an .arb file
+  Predefined Widget is located here (lib/widget/language_selection_widget.dart)
+  LanguageSelectionWidget() to change the language of the app
+  
 --------------------------------------------------------

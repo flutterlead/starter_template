@@ -43,6 +43,7 @@
                 <data android:scheme="https" />
                 <data android:host="divit-vaghani.dev" />
                 <data android:pathPattern="/setting" />
+                <data android:pathPattern="/pagination" />
 
             </intent-filter>
 

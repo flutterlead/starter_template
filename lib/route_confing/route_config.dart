@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:starter_template/main.dart';
 
 final router = GoRouter(
-  errorBuilder: (context, state) => const MyHomePage(),
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
@@ -11,6 +11,10 @@ final router = GoRouter(
     GoRoute(
       path: '/setting',
       builder: (context, state) => const SettingScreen(),
+    ),
+    GoRoute(
+      path: '/pagination',
+      builder: (context, state) => const PaginationExample(),
     ),
   ],
 );

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:starter_template/injectable/injectable.dart';
 import 'package:starter_template/model/people_model/people.dart';
+import 'package:starter_template/route_confing/route_confing.dart';
 import 'package:starter_template/services/firebase/firebase_push_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:starter_template/utils/localization_manager/localization_manager
 import 'package:starter_template/widget/api_builder_widget.dart';
 import 'package:starter_template/widget/theme_selection_widget.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
+import 'package:go_router/go_router.dart';
 
 Future<void> main() async {
   runZonedGuarded(
@@ -30,8 +32,8 @@ Future<void> main() async {
         return true;
       };
       getIt<Dio>().interceptors.add(PrettyDioLogger(responseBody: false));
-      getIt<Dio>().interceptors.add(DioCacheInterceptor(options: cacheOption));
-      getIt<Dio>().interceptors.add(RetryInterceptor(dio: getIt<Dio>()));
+      // getIt<Dio>().interceptors.add(DioCacheInterceptor(options: cacheOption));
+      // getIt<Dio>().interceptors.add(RetryInterceptor(dio: getIt<Dio>()));
       final themeMode = await AdaptiveTheme.getThemeMode();
       runApp(Application(mode: themeMode));
     },
@@ -63,7 +65,8 @@ class Application extends StatelessWidget {
           colorSchemeSeed: Colors.blue,
         ),
         initial: mode ?? AdaptiveThemeMode.system,
-        builder: (light, dark) => MaterialApp(
+        builder: (light, dark) => MaterialApp.router(
+          routerConfig: router,
           debugShowCheckedModeBanner: false,
           theme: light,
           darkTheme: dark,
@@ -71,7 +74,6 @@ class Application extends StatelessWidget {
           locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const MyHomePage(title: 'Starter Template'),
         ),
       ),
     );
@@ -79,9 +81,7 @@ class Application extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();

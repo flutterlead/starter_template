@@ -18,5 +18,8 @@
   "unknownError": "अज्ञात त्रुटि",
   "settings": "सेटिंग्स",
   "changeTheme": "थीम बदलें",
-  "changeLanguage": "भाषा बदलें"
+  "changeLanguage": "भाषा बदलें",
+  "darkMode": "डार्क मोड",
+  "lightMode": "लाइट मोड",
+  "systemMode": "सिस्टम मोड"
 }

@@ -18,5 +18,8 @@
   "unknownError": "Unknown Error",
   "settings": "Setting",
   "changeTheme": "Change Theme",
-  "changeLanguage": "Change Language"
+  "changeLanguage": "Change Language",
+  "darkMode": "Dark Mode",
+  "lightMode": "Light Mode",
+  "systemMode": "System"
 }

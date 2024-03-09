@@ -14,9 +14,9 @@
             android:launchMode="singleInstance"
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize">
-            <!-- Specifies an Android theme to apply to this Activity as soon as
-                 the Android process has started. This theme is visible to the user
-                 while the Flutter UI initializes. After that, this theme continues
+            <!-- Specifies an Android custom_theme_color to apply to this Activity as soon as
+                 the Android process has started. This custom_theme_color is visible to the user
+                 while the Flutter UI initializes. After that, this custom_theme_color continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"

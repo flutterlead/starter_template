@@ -8,12 +8,15 @@ class ApiBuilderWidget<T> extends StatefulWidget {
   const ApiBuilderWidget({
     super.key,
     required this.future,
-    required this.onCompleted, required this.onConnectionRestored,
+    required this.onCompleted,
+    required this.onConnectionRestored,
+    this.loadingWidget,
   });
 
   final Future<T> future;
   final Widget Function(dynamic snapshot) onCompleted;
   final void Function() onConnectionRestored;
+  final Widget? loadingWidget;
 
   @override
   State<ApiBuilderWidget> createState() => ApiBuilderWidgetState();
@@ -64,6 +67,9 @@ class ApiBuilderWidgetState<T> extends State<ApiBuilderWidget> {
             return Builder(builder: (context) => widget.onCompleted(data));
           }
         }
+
+        if (widget.loadingWidget != null) return widget.loadingWidget!;
+
         return const Center(
           child: CircularProgressIndicator.adaptive(),
         );

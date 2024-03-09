@@ -15,6 +15,7 @@ Editor -> Code style -> Dart set line length to 200
   Supports Sqflite database(check out here lib/utils/data_base).
   Supports SharedPref (check out here lib/utils/shared_pref).
   Supports Debounce timer widget.
+  Support for Shimmer Effect.
 
 --------------------------------------------------------
 # To Generate With Build Runner use this command you can use any of the following commands

@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+//import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+//import 'package:starter_template/services/web_service/cache_interceptor/cache_interceptor.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -9,19 +10,19 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:starter_template/injectable/injectable.dart';
 import 'package:starter_template/model/beer_model/beer.dart';
 import 'package:starter_template/model/people_model/people.dart';
-import 'package:starter_template/route_confing/route_config.dart';
+import 'package:starter_template/route_config/route_config.dart';
 import 'package:starter_template/services/firebase/firebase_push_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:starter_template/services/web_service/api_service.dart';
-import 'package:starter_template/services/web_service/cache_interceptor/cache_interceptor.dart';
+import 'package:starter_template/utils/custom_theme_color/custom_theme_color.dart';
 import 'package:starter_template/utils/extension.dart';
 import 'package:starter_template/utils/localization_manager/localization_manager.dart';
+import 'package:starter_template/utils/shimmer/shimmer.dart';
 import 'package:starter_template/widget/api_builder_widget.dart';
 import 'package:starter_template/widget/theme_selection_widget.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 
 Future<void> main() async {
   runZonedGuarded(
@@ -35,7 +36,7 @@ Future<void> main() async {
         return true;
       };
       getIt<Dio>().interceptors.add(PrettyDioLogger(responseBody: false));
-      getIt<Dio>().interceptors.add(DioCacheInterceptor(options: cacheOption));
+      //getIt<Dio>().interceptors.add(DioCacheInterceptor(options: cacheOption));
       getIt<Dio>().interceptors.add(RetryInterceptor(dio: getIt<Dio>()));
       final themeMode = await AdaptiveTheme.getThemeMode();
       runApp(Application(mode: themeMode));
@@ -61,11 +62,23 @@ class Application extends StatelessWidget {
           useMaterial3: true,
           brightness: Brightness.light,
           colorSchemeSeed: Colors.blue,
+          extensions: <ThemeExtension<dynamic>>[
+            CustomThemeColor(
+              shimmerBaseColor: Colors.grey.shade300,
+              shimmerHighlightColor: Colors.grey.shade100,
+            ),
+          ],
         ),
         dark: ThemeData(
           useMaterial3: true,
           brightness: Brightness.dark,
           colorSchemeSeed: Colors.blue,
+          extensions: <ThemeExtension<dynamic>>[
+            CustomThemeColor(
+              shimmerBaseColor: Colors.grey.shade800,
+              shimmerHighlightColor: Colors.grey.shade600,
+            ),
+          ],
         ),
         initial: mode ?? AdaptiveThemeMode.system,
         builder: (light, dark) => MaterialApp.router(
@@ -107,16 +120,19 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Retrofit Example"),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingScreen()));
-            },
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingScreen())),
             icon: const Icon(Icons.settings),
-          )
+          ),
+          IconButton(
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const PaginationExample())),
+            icon: const Icon(Icons.pages_sharp),
+          ),
         ],
       ),
       body: ApiBuilderWidget<List<PeopleModel>>(
         key: peopleKey,
         future: getIt<RestClient>().getPeoples(),
+        loadingWidget: ListView(children: List.generate(20, (index) => index).map<Widget>((e) => shimmerTileWidget(context)).toList()),
         onConnectionRestored: () => peopleKey.refresh(getIt<RestClient>().getPeoples()),
         onCompleted: (snapshot) {
           return RefreshIndicator(
@@ -135,10 +151,46 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Image.network(
           model.avatar.toString(),
           errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+          height: 50,
         ),
       ),
       title: Text(model.name.toString()),
       subtitle: Text(model.createdAt.toString()),
+    );
+  }
+
+  Widget shimmerTileWidget(BuildContext context) {
+    final myColors = Theme.of(context).extension<CustomThemeColor>()!;
+    return Shimmer.fromColors(
+      baseColor: myColors.shimmerBaseColor,
+      highlightColor: myColors.shimmerHighlightColor,
+      enabled: true,
+      child: ListTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(100.0),
+          child: Container(
+            width: 50,
+            height: 50,
+            color: Colors.white,
+          ),
+        ),
+        title: Container(
+          height: 12.0,
+          margin: EdgeInsets.only(right: context.width / 2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+          ),
+        ),
+        subtitle: Container(
+          margin: EdgeInsets.only(right: context.width / 3),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+          ),
+          height: 12.0,
+        ),
+      ),
     );
   }
 }
@@ -168,9 +220,6 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 }
-
-
-
 
 class PaginationExample extends StatefulWidget {
   const PaginationExample({super.key});
@@ -225,7 +274,9 @@ class _PaginationExampleState extends State<PaginationExample> {
               child: Text('No item found'),
             ),
             itemBuilder: (context, item, index) => beerListItem(item),
-            firstPageProgressIndicatorBuilder: (context) => const CupertinoActivityIndicator(),
+            firstPageProgressIndicatorBuilder: (context) => Column(
+              children: List.generate(20, (index) => index).map<Widget>((e) => shimmerTileWidget(context)).toList(),
+            ),
             newPageProgressIndicatorBuilder: (context) => Container(
               margin: const EdgeInsets.all(16.0),
               child: const CupertinoActivityIndicator(),
@@ -253,6 +304,41 @@ class _PaginationExampleState extends State<PaginationExample> {
       ),
       title: Text(beer.name.toString()),
       subtitle: Text(beer.description.toString()),
+    );
+  }
+
+  Widget shimmerTileWidget(BuildContext context) {
+    final myColors = Theme.of(context).extension<CustomThemeColor>()!;
+    return Shimmer.fromColors(
+      baseColor: myColors.shimmerBaseColor,
+      highlightColor: myColors.shimmerHighlightColor,
+      enabled: true,
+      child: ListTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(100.0),
+          child: Container(
+            width: 50,
+            height: 50,
+            color: Colors.white,
+          ),
+        ),
+        title: Container(
+          height: 12.0,
+          margin: EdgeInsets.only(right: context.width / 2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+          ),
+        ),
+        subtitle: Container(
+          margin: EdgeInsets.only(right: context.width / 3),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+          ),
+          height: 12.0,
+        ),
+      ),
     );
   }
 }

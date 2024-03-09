@@ -303,7 +303,10 @@ class _PaginationExampleState extends State<PaginationExample> {
         ),
       ),
       title: Text(beer.name.toString()),
-      subtitle: Text(beer.description.toString()),
+      subtitle: Text(
+        beer.description.toString(),
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
@@ -331,7 +334,6 @@ class _PaginationExampleState extends State<PaginationExample> {
           ),
         ),
         subtitle: Container(
-          margin: EdgeInsets.only(right: context.width / 3),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,

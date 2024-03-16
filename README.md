@@ -16,6 +16,7 @@ Editor -> Code style -> Dart set line length to 200
   Supports SharedPref (check out here lib/utils/shared_pref).
   Supports Debounce timer widget.
   Support for Shimmer Effect.
+  Support to convert future to stream. 
 
 --------------------------------------------------------
 # To Generate With Build Runner use this command you can use any of the following commands
@@ -247,3 +248,14 @@ class _PaginationExampleState extends State<PaginationExample> {
   LanguageSelectionWidget() to change the language of the app
   
 --------------------------------------------------------
+# Supports future to stream
+
+  You can find it here (lib/utils/stream_service/stream_service.dart)
+  To use it you can use this code.
+  
+  final streamService = StreamService();
+  final stream = streamService.futureToStream({--FUTURE-METHOD-HERE});
+  streamService.cancel();
+
+--------------------------------------------------------
+  

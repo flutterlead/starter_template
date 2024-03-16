@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:dio/dio.dart';
-//import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-//import 'package:starter_template/services/web_service/cache_interceptor/cache_interceptor.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:starter_template/services/web_service/cache_interceptor/cache_interceptor.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -36,7 +36,7 @@ Future<void> main() async {
         return true;
       };
       getIt<Dio>().interceptors.add(PrettyDioLogger(responseBody: false));
-      //getIt<Dio>().interceptors.add(DioCacheInterceptor(options: cacheOption));
+      getIt<Dio>().interceptors.add(DioCacheInterceptor(options: cacheOption));
       getIt<Dio>().interceptors.add(RetryInterceptor(dio: getIt<Dio>()));
       final themeMode = await AdaptiveTheme.getThemeMode();
       runApp(Application(mode: themeMode));
@@ -113,12 +113,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final peopleKey = GlobalKey<ApiBuilderWidgetState>();
 
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Retrofit Example"),
         actions: [
+          IconButton(
+            onPressed: () {
+              streamService.getStream(() => getIt<RestClient>().getPeoples()).listen((event) {
+                for (var i = 0; i < event.length; i++) {
+                  print(event[i].name);
+                }
+              });
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+          IconButton(
+            onPressed: () {
+              streamService.cancel();
+            },
+            icon: const Icon(Icons.close),
+          ),
           IconButton(
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingScreen())),
             icon: const Icon(Icons.settings),
@@ -344,3 +367,5 @@ class _PaginationExampleState extends State<PaginationExample> {
     );
   }
 }
+
+

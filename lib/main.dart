@@ -113,10 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final peopleKey = GlobalKey<ApiBuilderWidgetState>();
 
-
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -126,22 +124,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text("Retrofit Example"),
         actions: [
-          IconButton(
-            onPressed: () {
-              streamService.getStream(() => getIt<RestClient>().getPeoples()).listen((event) {
-                for (var i = 0; i < event.length; i++) {
-                  print(event[i].name);
-                }
-              });
-            },
-            icon: const Icon(Icons.refresh),
-          ),
-          IconButton(
-            onPressed: () {
-              streamService.cancel();
-            },
-            icon: const Icon(Icons.close),
-          ),
           IconButton(
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingScreen())),
             icon: const Icon(Icons.settings),
@@ -367,5 +349,3 @@ class _PaginationExampleState extends State<PaginationExample> {
     );
   }
 }
-
-

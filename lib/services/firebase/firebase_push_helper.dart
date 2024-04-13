@@ -7,13 +7,15 @@ import 'notification_helper.dart';
 import 'models/notification_info.dart';
 
 abstract class FirebasePushHelperHelperProtocol {
-  Future<void> initPushConfiguration(void Function(NotificationResponse value) callback);
+  Future<void> initPushConfiguration(
+      void Function(NotificationResponse value) callback);
 
   Future<void> saveToken();
 }
 
 class FirebasePushHelper extends FirebasePushHelperHelperProtocol {
-  static final FirebasePushHelperHelperProtocol instance = FirebasePushHelper._();
+  static final FirebasePushHelperHelperProtocol instance =
+      FirebasePushHelper._();
 
   FirebasePushHelper._();
 
@@ -21,7 +23,8 @@ class FirebasePushHelper extends FirebasePushHelperHelperProtocol {
   final notificationHelper = NotificationHelper.instance;
 
   @override
-  Future<void> initPushConfiguration(void Function(NotificationResponse) callback) async {
+  Future<void> initPushConfiguration(
+      void Function(NotificationResponse) callback) async {
     await notificationHelper.initialize(callback);
     await messaging.requestPermission();
     _setupForegroundNotify();
@@ -37,11 +40,14 @@ class FirebasePushHelper extends FirebasePushHelperHelperProtocol {
     messaging.onTokenRefresh.listen((newToken) => log(newToken, name: 'TOKEN'));
   }
 
-  void _setupForegroundNotify() => FirebaseMessaging.onMessage.listen(_messageShowHandler);
+  void _setupForegroundNotify() =>
+      FirebaseMessaging.onMessage.listen(_messageShowHandler);
 
-  static void _setupBackGroundMessage() => FirebaseMessaging.onBackgroundMessage(_messageShowHandler);
+  static void _setupBackGroundMessage() =>
+      FirebaseMessaging.onBackgroundMessage(_messageShowHandler);
 
-  void _setupClickNotify() => FirebaseMessaging.onMessageOpenedApp.listen(_messageShowHandler);
+  void _setupClickNotify() =>
+      FirebaseMessaging.onMessageOpenedApp.listen(_messageShowHandler);
 
   /// Future<void> _setupTerminatedNotify() async {
   ///   final initialMsg = await messaging.getInitialMessage();
@@ -53,6 +59,7 @@ class FirebasePushHelper extends FirebasePushHelperHelperProtocol {
 @pragma('vm:entry-point')
 Future<void> _messageShowHandler(RemoteMessage message) async {
   final notificationHelper = NotificationHelper.instance;
-  final notificationInfo = NotificationInfo.fromFirebaseMessage(message: message);
+  final notificationInfo =
+      NotificationInfo.fromFirebaseMessage(message: message);
   notificationHelper.showNotification(notificationInfo);
 }

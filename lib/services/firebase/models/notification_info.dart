@@ -15,7 +15,8 @@ class NotificationInfo {
     required this.payLoad,
   });
 
-  factory NotificationInfo.fromFirebaseMessage({required RemoteMessage message}) {
+  factory NotificationInfo.fromFirebaseMessage(
+      {required RemoteMessage message}) {
     return NotificationInfo(
       title: (message.notification?.title ?? ''),
       subtitle: (message.notification?.body ?? ''),

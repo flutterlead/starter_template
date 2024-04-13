@@ -5,7 +5,8 @@ class Resume {
   String? source;
 }
 
-abstract class ResumeState<T extends StatefulWidget> extends State<T> with WidgetsBindingObserver {
+abstract class ResumeState<T extends StatefulWidget> extends State<T>
+    with WidgetsBindingObserver {
   Resume resume = Resume();
   bool _isPaused = false;
 
@@ -25,7 +26,8 @@ abstract class ResumeState<T extends StatefulWidget> extends State<T> with Widge
   }
 
   /// This method is replacement of Navigator.push(), but fires onResume() after route popped
-  Future<U?> push<U extends Object?>(BuildContext context, Route<U> route, [String? source]) {
+  Future<U?> push<U extends Object?>(BuildContext context, Route<U> route,
+      [String? source]) {
     _isPaused = true;
     onPause();
     return Navigator.of(context).push<U>(route).then((value) {
@@ -38,10 +40,14 @@ abstract class ResumeState<T extends StatefulWidget> extends State<T> with Widge
   }
 
   /// This method is replacement of Navigator.pushNamed(), but fires onResume() after route popped
-  Future<U?> pushNamed<U extends Object?>(BuildContext context, String routeName, {Object? arguments}) {
+  Future<U?> pushNamed<U extends Object?>(
+      BuildContext context, String routeName,
+      {Object? arguments}) {
     _isPaused = true;
     onPause();
-    return Navigator.of(context).pushNamed<U>(routeName, arguments: arguments).then((value) {
+    return Navigator.of(context)
+        .pushNamed<U>(routeName, arguments: arguments)
+        .then((value) {
       _isPaused = false;
       resume.data = value;
       resume.source = routeName;

@@ -28,7 +28,9 @@ class PaginationExample extends StatelessWidget {
             ),
             itemBuilder: (context, item, index) => beerListItem(item),
             firstPageProgressIndicatorBuilder: (context) => Column(
-              children: List.generate(20, (index) => index).map<Widget>((e) => shimmerTileWidget(context)).toList(),
+              children: List.generate(20, (index) => index)
+                  .map<Widget>((e) => shimmerTileWidget(context))
+                  .toList(),
             ),
             newPageProgressIndicatorBuilder: (context) => Container(
               margin: const EdgeInsets.all(16.0),

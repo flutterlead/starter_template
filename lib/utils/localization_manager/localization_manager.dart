@@ -76,12 +76,14 @@ class LocalizationManagerState extends State<LocalizationManager> {
   }
 
   void _saveNewLocaleIfNotSaved(Locale newLocale) {
-    getIt<SharedPrefService>().saveLocale('NEW_LOCALE', newLocale.toLanguageTag());
+    getIt<SharedPrefService>()
+        .saveLocale('NEW_LOCALE', newLocale.toLanguageTag());
   }
 
   void _saveLocaleIfNotSaved() {
     if (getIt<SharedPrefService>().getLocale('CURRENT_LOCALE') != null) return;
-    getIt<SharedPrefService>().saveLocale('CURRENT_LOCALE', _currentLocale.value.toLanguageTag());
+    getIt<SharedPrefService>()
+        .saveLocale('CURRENT_LOCALE', _currentLocale.value.toLanguageTag());
   }
 
   @override
@@ -129,7 +131,8 @@ class LanguageSelectionWidget extends StatelessWidget {
                     title: Text(e.languageCode),
                     value: e.languageCode,
                     groupValue: value.languageCode,
-                    onChanged: (value) => LocalizationManager.of(context).setLocale(Locale(value.toString())),
+                    onChanged: (value) => LocalizationManager.of(context)
+                        .setLocale(Locale(value.toString())),
                   ))
               .toList(),
         ),

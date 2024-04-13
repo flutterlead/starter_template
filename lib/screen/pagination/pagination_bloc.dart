@@ -17,7 +17,7 @@ class PaginationBloc extends Cubit<PaginationBlocState> {
 
   PagingController<int, PeopleModel> get pageController => _pagingController;
 
-  void refresh()=> pageController.refresh();
+  void refresh() => pageController.refresh();
 
   Future<void> _fetchPage(int pageKey) async {
     try {

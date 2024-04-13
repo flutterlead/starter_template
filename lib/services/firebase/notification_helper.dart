@@ -6,7 +6,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 abstract class NotificationHelperProtocol {
   Future<void> showNotification(NotificationInfo notificationData);
 
-  Future<void> initialize(void Function(NotificationResponse response) callback);
+  Future<void> initialize(
+      void Function(NotificationResponse response) callback);
 }
 
 class NotificationHelper implements NotificationHelperProtocol {
@@ -27,17 +28,20 @@ class NotificationHelper implements NotificationHelperProtocol {
   }
 
   @override
-  Future<void> initialize(void Function(NotificationResponse response) callback) async {
+  Future<void> initialize(
+      void Function(NotificationResponse response) callback) async {
     await launchedFromNotification(callback);
     const iosSettings = DarwinInitializationSettings();
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel_custom',
       'high_importance_channel_name',
       importance: Importance.max,
     );
 
-    const AndroidNotificationChannel channelDefault = AndroidNotificationChannel(
+    const AndroidNotificationChannel channelDefault =
+        AndroidNotificationChannel(
       'default_channel',
       'default_channel_name',
       importance: Importance.none,
@@ -46,8 +50,14 @@ class NotificationHelper implements NotificationHelperProtocol {
       showBadge: false,
     );
 
-    await _localNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
-    await _localNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channelDefault);
+    await _localNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    await _localNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channelDefault);
 
     await _localNotificationsPlugin.initialize(
       const InitializationSettings(android: androidSettings, iOS: iosSettings),
@@ -55,7 +65,8 @@ class NotificationHelper implements NotificationHelperProtocol {
     );
   }
 
-  Future<void> launchedFromNotification(void Function(NotificationResponse response) callback) async {
+  Future<void> launchedFromNotification(
+      void Function(NotificationResponse response) callback) async {
     await _localNotificationsPlugin.getNotificationAppLaunchDetails().then(
       (details) {
         if (details?.didNotificationLaunchApp ?? false) {
@@ -66,7 +77,8 @@ class NotificationHelper implements NotificationHelperProtocol {
     );
   }
 
-  NotificationDetails _getNotificationDetails(NotificationInfo notificationInfo) {
+  NotificationDetails _getNotificationDetails(
+      NotificationInfo notificationInfo) {
     const iosNotificationDetails = DarwinNotificationDetails();
 
     final androidNotificationDetails = AndroidNotificationDetails(

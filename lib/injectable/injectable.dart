@@ -24,8 +24,10 @@ Future<void> configuration({required void Function() runApp}) async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       await getIt.init();
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kDebugMode ? false : true);
-      FlutterError.onError = (errorDetails) => FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      await FirebaseCrashlytics.instance
+          .setCrashlyticsCollectionEnabled(kDebugMode ? false : true);
+      FlutterError.onError = (errorDetails) =>
+          FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       PlatformDispatcher.instance.onError = (error, stack) {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
@@ -35,10 +37,13 @@ Future<void> configuration({required void Function() runApp}) async {
       getIt<Dio>().interceptors.add(RetryInterceptor(dio: getIt<Dio>()));
       runApp();
     },
-    (error, stackTrace) => FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true),
+    (error, stackTrace) => FirebaseCrashlytics.instance
+        .recordError(error, stackTrace, fatal: true),
     zoneSpecification: ZoneSpecification(
-      handleUncaughtError: (Zone zone, ZoneDelegate delegate, Zone parent, Object error, StackTrace stackTrace) {
-        FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
+      handleUncaughtError: (Zone zone, ZoneDelegate delegate, Zone parent,
+          Object error, StackTrace stackTrace) {
+        FirebaseCrashlytics.instance
+            .recordError(error, stackTrace, fatal: true);
       },
     ),
   );
@@ -58,5 +63,6 @@ abstract class RegisterModule {
   Future<Directory> temporaryDirectory() => getTemporaryDirectory();
 
   @preResolve
-  Future<FirebaseApp> initializeFireBase() => Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Future<FirebaseApp> initializeFireBase() =>
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }

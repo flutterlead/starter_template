@@ -18,13 +18,17 @@ class DebounceBuilder extends StatefulWidget {
 }
 
 class _DebounceBuilderState extends State<DebounceBuilder> {
-  final StreamController<String> _textChangeStreamController = StreamController();
+  final StreamController<String> _textChangeStreamController =
+      StreamController();
   late StreamSubscription _textChangesSubscription;
 
   @override
   void initState() {
     final duration = widget.debounceTime ?? const Duration(seconds: 1);
-    _textChangesSubscription = _textChangeStreamController.stream.debounceTime(duration).distinct().listen(
+    _textChangesSubscription = _textChangeStreamController.stream
+        .debounceTime(duration)
+        .distinct()
+        .listen(
       (text) {
         final onChanged = widget.onChanged;
         if (onChanged != null) onChanged(text);

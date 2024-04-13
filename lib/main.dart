@@ -111,12 +111,20 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ApiBuilderWidget<List<PeopleModel>>(
         key: peopleKey,
         future: getIt<RestClient>().getPeoples(),
-        loadingWidget: ListView(children: List.generate(20, (index) => index).map<Widget>((e) => shimmerTileWidget(context)).toList()),
-        onConnectionRestored: () => peopleKey.refresh(getIt<RestClient>().getPeoples()),
+        loadingWidget: ListView(
+            children: List.generate(20, (index) => index)
+                .map<Widget>((e) => shimmerTileWidget(context))
+                .toList()),
+        onConnectionRestored: () =>
+            peopleKey.refresh(getIt<RestClient>().getPeoples()),
         onCompleted: (snapshot) {
           return RefreshIndicator(
-            onRefresh: () async => peopleKey.refresh(getIt<RestClient>().getPeoples()),
-            child: ListView(children: (snapshot as List<PeopleModel>).map<Widget>(peopleWidget).toList()),
+            onRefresh: () async =>
+                peopleKey.refresh(getIt<RestClient>().getPeoples()),
+            child: ListView(
+                children: (snapshot as List<PeopleModel>)
+                    .map<Widget>(peopleWidget)
+                    .toList()),
           );
         },
       ),
@@ -199,5 +207,3 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 }
-
-

@@ -28,7 +28,9 @@ class _ErrorDialogState extends State<ErrorDialog> {
 
   void listenForConnectivityChange() {
     connectivity?.onConnectivityChanged.listen((event) {
-      if (!event.contains(ConnectivityResult.none)) widget.onConnectionRestored();
+      if (!event.contains(ConnectivityResult.none)) {
+        widget.onConnectionRestored();
+      }
     });
   }
 
@@ -93,5 +95,9 @@ class TextStyles {
     fontSize: 16,
   );
 
-  static const errorTitle = TextStyle(fontWeight: FontWeight.w700, fontSize: 18, letterSpacing: 0.0, color: Colors.red);
+  static const errorTitle = TextStyle(
+      fontWeight: FontWeight.w700,
+      fontSize: 18,
+      letterSpacing: 0.0,
+      color: Colors.red);
 }

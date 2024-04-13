@@ -27,7 +27,9 @@ class ReCase {
 
       sb.write(char);
 
-      bool isEndOfWord = nextChar == null || (_upperAlphaRegex.hasMatch(nextChar) && !isAllCaps) || symbolSet.contains(nextChar);
+      bool isEndOfWord = nextChar == null ||
+          (_upperAlphaRegex.hasMatch(nextChar) && !isAllCaps) ||
+          symbolSet.contains(nextChar);
 
       if (isEndOfWord) {
         words.add(sb.toString());

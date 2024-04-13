@@ -17,7 +17,8 @@ class CustomThemeColor extends ThemeExtension<CustomThemeColor> {
   }) {
     return CustomThemeColor(
       shimmerBaseColor: shimmerBaseColor ?? this.shimmerBaseColor,
-      shimmerHighlightColor: shimmerHighlightColor ?? this.shimmerHighlightColor,
+      shimmerHighlightColor:
+          shimmerHighlightColor ?? this.shimmerHighlightColor,
     );
   }
 
@@ -25,8 +26,10 @@ class CustomThemeColor extends ThemeExtension<CustomThemeColor> {
   CustomThemeColor lerp(ThemeExtension<CustomThemeColor>? other, double t) {
     if (other is! CustomThemeColor) return this;
     return CustomThemeColor(
-      shimmerBaseColor: Color.lerp(shimmerBaseColor, other.shimmerBaseColor, t)!,
-      shimmerHighlightColor: Color.lerp(shimmerHighlightColor, other.shimmerHighlightColor, t)!,
+      shimmerBaseColor:
+          Color.lerp(shimmerBaseColor, other.shimmerBaseColor, t)!,
+      shimmerHighlightColor:
+          Color.lerp(shimmerHighlightColor, other.shimmerHighlightColor, t)!,
     );
   }
 }

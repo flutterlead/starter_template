@@ -38,8 +38,10 @@ class DataBaseHelper {
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < newVersion) {
       Batch batch = db.batch();
-      batch.execute("ALTER TABLE ${DataBaseNaming.table} ADD COLUMN ${DataBaseNaming.country} TEXT");
-      batch.execute("ALTER TABLE ${DataBaseNaming.table} ADD COLUMN ${DataBaseNaming.address} TEXT");
+      batch.execute(
+          "ALTER TABLE ${DataBaseNaming.table} ADD COLUMN ${DataBaseNaming.country} TEXT");
+      batch.execute(
+          "ALTER TABLE ${DataBaseNaming.table} ADD COLUMN ${DataBaseNaming.address} TEXT");
       await batch.commit();
     }
   }

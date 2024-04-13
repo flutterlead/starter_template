@@ -1,9 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'beer.g.dart';
 
-List<BeerSummary> deserializeBeerSummaryList(List<Map<String, dynamic>> json) => json.map((e) => BeerSummary.fromJson(e)).toList();
+List<BeerSummary> deserializeBeerSummaryList(List<Map<String, dynamic>> json) =>
+    json.map((e) => BeerSummary.fromJson(e)).toList();
 
-List<Map<String, dynamic>> serializeBeerSummaryList(List<BeerSummary> model) => model.map((e) => e.toJson()).toList();
+List<Map<String, dynamic>> serializeBeerSummaryList(List<BeerSummary> model) =>
+    model.map((e) => e.toJson()).toList();
 
 @JsonSerializable()
 class BeerSummary {

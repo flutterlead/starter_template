@@ -17,6 +17,7 @@ Editor -> Code style -> Dart set line length to 200
   Supports Debounce timer widget.
   Support for Shimmer Effect.
   Support to convert future to stream. 
+  Supports Github actions.
 
 --------------------------------------------------------
 # To Generate With Build Runner use this command you can use any of the following commands
@@ -258,4 +259,8 @@ class _PaginationExampleState extends State<PaginationExample> {
   streamService.cancel();
 
 --------------------------------------------------------
-  
+# Supports Github actions
+
+  You can find it here (.github/workflows/flutter_build.yml)
+
+--------------------------------------------------------

@@ -47,15 +47,15 @@ Future<void> configuration({required void Function() runApp}) async {
 @module
 abstract class RegisterModule {
   @singleton
-  Dio get dio => Dio();
+  Dio dio() => Dio();
 
   String get baseUrl => 'https://61028c7079ed68001748216c.mockapi.io/';
 
   @preResolve
-  Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+  Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
 
   @preResolve
-  Future<Directory> get temporaryDirectory => getTemporaryDirectory();
+  Future<Directory> temporaryDirectory() => getTemporaryDirectory();
 
   @preResolve
   Future<FirebaseApp> initializeFireBase() => Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

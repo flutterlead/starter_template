@@ -5,10 +5,10 @@ import 'package:rxdart/rxdart.dart';
 
 class DebounceBuilder extends StatefulWidget {
   const DebounceBuilder({
-    Key? key,
+    super.key,
     this.onChanged,
     this.debounceTime,
-  }) : super(key: key);
+  });
 
   final ValueChanged<String>? onChanged;
   final Duration? debounceTime;

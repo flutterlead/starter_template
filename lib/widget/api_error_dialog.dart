@@ -4,10 +4,10 @@ import 'package:starter_template/services/exception/exception.dart';
 
 class ErrorDialog extends StatefulWidget {
   const ErrorDialog({
-    Key? key,
+    super.key,
     required this.userFriendlyError,
     required this.onConnectionRestored,
-  }) : super(key: key);
+  });
 
   final UserFriendlyError userFriendlyError;
   final void Function() onConnectionRestored;
@@ -27,8 +27,8 @@ class _ErrorDialogState extends State<ErrorDialog> {
   }
 
   void listenForConnectivityChange() {
-    connectivity?.onConnectivityChanged.listen((ConnectivityResult result) {
-      if (result != ConnectivityResult.none) widget.onConnectionRestored();
+    connectivity?.onConnectivityChanged.listen((event) {
+      if (!event.contains(ConnectivityResult.none)) widget.onConnectionRestored();
     });
   }
 

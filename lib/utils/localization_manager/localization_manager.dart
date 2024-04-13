@@ -37,10 +37,10 @@ class LocalizationManager extends StatefulWidget {
 
   /// Primary constructor which allows configuring the initial locale.
   const LocalizationManager({
-    Key? key,
+    super.key,
     required this.initialLocale,
     required this.builder,
-  }) : super(key: key);
+  });
 
   @override
   State<LocalizationManager> createState() => LocalizationManagerState();

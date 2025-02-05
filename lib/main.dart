@@ -132,6 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget peopleWidget(PeopleModel model) {
+    //Comment
     return ListTile(
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(100.0),

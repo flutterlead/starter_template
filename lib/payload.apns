@@ -1,0 +1,11 @@
+{
+  "aps": {
+    "alert": {
+      "title": "Divit Vaghani",
+      "body": "Success! Push notification in simulator! 🎉",
+      "sound": "default"
+    },
+    "badge": 10
+  },
+  "Simulator Target Bundle": "com.f50f.today"
+}
